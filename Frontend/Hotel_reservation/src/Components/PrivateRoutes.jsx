@@ -1,16 +1,17 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 
-const PrivateRoutes = () => {
+const PrivateRoutes = ({ allowedRoles }) => {
   const token = sessionStorage.getItem("logintoken");
-  let verifyUser = false;
-  if (token) {
-    verifyUser = true;
+  const role = sessionStorage.getItem("role");
+
+  if (!token || !allowedRoles.includes(role)) {
+    return <Navigate to="/" />;
   }
 
-  return verifyUser ? <Outlet /> : <Navigate to={"/"} />;
+  return <Outlet />;
 };
 
-
 export default PrivateRoutes;
+
+
