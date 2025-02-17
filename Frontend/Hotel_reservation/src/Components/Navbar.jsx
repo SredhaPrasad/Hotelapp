@@ -85,11 +85,11 @@ const Navbar = () => {
                             Gallery
                           </a>
                         </li>
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                           <a className="nav-link" href="/contact">
                             Contact Us
                           </a>
-                        </li>
+                        </li> */}
                         <li className="nav-item">
                           <a className="nav-link" href="/login">
                             Login
@@ -147,11 +147,11 @@ const Navbar = () => {
                             Available Hotels
                           </a>
                         </li>
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                           <a className="nav-link" href="/contact">
                             Contact Us
                           </a>
-                        </li>
+                        </li> */}
                         <li className="nav-item">
                           <button className="nav-link btn-link" onClick={handleLogout}>
                             Logout
@@ -176,11 +176,11 @@ const Navbar = () => {
                             Gallery
                           </a>
                         </li>
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                           <a className="nav-link" href="/contact">
                             Contact Us
                           </a>
-                        </li>
+                        </li> */}
 
                         {/* User Role Based Links */}
                         {userRole === "admin" && (

@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
@@ -10,6 +12,7 @@ const HotelBooking = () => {
   const token = sessionStorage.getItem("logintoken");
   const decoded = jwtDecode(token);
 
+  // ➤ Fetch bookings for the hotel
   useEffect(() => {
     const fetchBookings = async () => {
       try {
@@ -25,12 +28,22 @@ const HotelBooking = () => {
     fetchBookings();
   }, [hotelId]);
 
-
-  
-
-  const sendEmail = async (email, name) => {
+  // ➤ Send email and mark the customer as messaged
+  const sendEmail = async (email, name, bookingId) => {
     try {
-      const res = await axios.post("http://localhost:7000/api/send-email", { email, name });
+      const res = await axios.post("http://localhost:7000/booking/send-email", {
+        email,
+        name,
+        bookingId,
+      });
+
+      // Update messageSent status in the UI
+      setBookings((prevBookings) =>
+        prevBookings.map((booking) =>
+          booking._id === bookingId ? { ...booking, messageSent: true } : booking
+        )
+      );
+
       alert(res.data.message);
     } catch (error) {
       console.error("Error sending email:", error);
@@ -42,6 +55,7 @@ const HotelBooking = () => {
     <div>
       <h2>Hotel Bookings</h2>
       <Link to="/Hotel" className="btn btn-secondary">Back to Dashboard</Link>
+
       {loading ? (
         <p>Loading bookings...</p>
       ) : (
@@ -53,24 +67,25 @@ const HotelBooking = () => {
               <th>Check-in</th>
               <th>Check-out</th>
               <th>Email</th>
-              <th>Action</th> {/* New column for Email Button */}
+              <th>Action</th> 
             </tr>
           </thead>
           <tbody>
             {bookings.length > 0 ? (
               bookings.map((booking) => (
                 <tr key={booking._id}>
-                  <td>{booking.user.name}</td>
+                  <td>{booking.user?.name}</td>
                   <td>{booking.totalPrice}</td>
                   <td>{new Date(booking.checkInDate).toLocaleDateString()}</td>
                   <td>{new Date(booking.checkOutDate).toLocaleDateString()}</td>
-                  <td>{booking.user.email}</td>
+                  <td>{booking.user?.email}</td>
                   <td>
                     <button
                       className="btn btn-primary"
-                      onClick={() => sendEmail(booking.user.email, booking.user.name)}
+                      onClick={() => sendEmail(booking.user.email, booking.user.name, booking._id)}
+                      disabled={booking.messageSent}
                     >
-                      Send Email
+                      {booking.messageSent ? "Message Sent" : "Send Email"}
                     </button>
                   </td>
                 </tr>

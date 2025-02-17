@@ -25,9 +25,8 @@ const HotelDashboard = ({ hotelId }) => {
     fetchRooms();
   }, []);
 
-  // Fetch rooms from API
   const fetchRooms = async () => {
-    const ownerId = sessionStorage.getItem("userId"); // Get logged-in owner's ID
+    const ownerId = sessionStorage.getItem("userId"); 
     if (!ownerId) {
       setError("Unauthorized access.");
       return;
@@ -44,10 +43,10 @@ const HotelDashboard = ({ hotelId }) => {
   };
   
 
-  // Open Edit Modal
+  
   const handleEditClick = (room) => {
     setSelectedRoom(room);
-    setFormData({ ...room, images: [] }); // Keep existing details, reset images
+    setFormData({ ...room, images: [] }); 
     setShowEditModal(true);
   };
 
@@ -64,17 +63,16 @@ const HotelDashboard = ({ hotelId }) => {
     }
   };
 
-  // Handle Input Change
+ 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle File Input Change
   const handleFileChange = (e) => {
     setFormData({ ...formData, images: Array.from(e.target.files) });
   };
 
-  // Update Room Details
+
   const handleUpdateRoom = async () => {
     const formDataToSend = new FormData();
     for (let key in formData) {
@@ -98,7 +96,6 @@ const HotelDashboard = ({ hotelId }) => {
     <div className="container mt-4">
       <h2 className="text-center">Hotel Dashboard</h2>
 
-      {/* View Bookings Button */}
       <div className="text-end mb-3">
       <Link to={`/hotelbooking`} className="btn btn-primary">
   View Bookings
@@ -123,7 +120,7 @@ const HotelDashboard = ({ hotelId }) => {
                 )}
                 <div className="card-body">
                   <h5>{room.hotel_name}</h5>
-                  <p className="card-text">📍 Location: {room.location}</p>
+                  <p className="card-text">Location:{room.location}</p>
                   <p className="card-text">👥 Max Capacity: {room.max_count}</p>
                   <p className="card-text">🏨 Type: {room.type}</p>
                   <p className="card-text">💰 Rent Per Day: ₹{room.rent_per_day}</p>
@@ -137,7 +134,7 @@ const HotelDashboard = ({ hotelId }) => {
         </div>
       )}
 
-      {/* Edit Room Modal */}
+      
       <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Room</Modal.Title>
